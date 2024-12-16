@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:interview_grader/models/assessment_item.dart';
@@ -45,9 +46,20 @@ class ItemView extends StatelessWidget {
                 value: index / totalNumber,
               ),
               space(val: 50.h),
-              Text(
-                'Question',
-                style: textTheme.titleLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Question',
+                    style: textTheme.titleLarge,
+                  ),
+                  TextButton(
+                      onPressed: () async {
+                        await Clipboard.setData(
+                            ClipboardData(text: assesmentItem.question));
+                      },
+                      child: const Text("Copy Question"))
+                ],
               ),
               space(),
               Text(
