@@ -30,36 +30,42 @@ class StartAssementScreen extends StatelessWidget {
       navigateToNext();
     }
 
-    List<Widget> _generatePages() {
-      List<Widget> pages = [];
-      for (int i = 0; i < state.assessmentReport.sections.length; i++) {
-        var section = state.assessmentReport.sections[i];
-        for (int j = 0; j < section.assesmentItems.length; j++) {
-          var item = section.assesmentItems[j];
-          pages.add(ItemView(
-              sectionName: section.label,
-              assesmentItem: item,
-              index: i + j + 1,
-              totalNumber: state.assessmentReport.getTotalNoOfQuestions(),
-              updateGrade: (grade) {
-                vm.updateGrade(i, j, grade);
-              },
-              onNext: () {
-                if (i == state.assessmentReport.sections.length - 1) {
-                  if (j == section.assesmentItems.length - 1) {
-                    appCubit.add(state.assessmentReport);
-                    Navigator.of(context).pop();
-                    vm.clear();
-                  }
-                }
-                navigateToNext();
-              }));
-        }
-      }
+  List<Widget> _generatePages() {
+  List<Widget> pages = [];
+  int totalItemsBeforeCurrentSection = 0; 
 
-      return pages;
+  for (int i = 0; i < state.assessmentReport.sections.length; i++) {
+    var section = state.assessmentReport.sections[i];
+    if (i > 0) {
+      totalItemsBeforeCurrentSection += state.assessmentReport.sections[i - 1].assesmentItems.length;
     }
 
+    for (int j = 0; j < section.assesmentItems.length; j++) {
+      var item = section.assesmentItems[j];
+      pages.add(ItemView(
+        sectionName: section.label,
+        assesmentItem: item,
+        index: totalItemsBeforeCurrentSection + j + 1,
+        totalNumber: state.assessmentReport.getTotalNoOfQuestions(),
+        updateGrade: (grade) {
+          vm.updateGrade(i, j, grade);
+        },
+        onNext: () {
+          if (i == state.assessmentReport.sections.length - 1) {
+            if (j == section.assesmentItems.length - 1) {
+              appCubit.add(state.assessmentReport);
+              Navigator.of(context).pop();
+              vm.clear();
+            }
+          }
+          navigateToNext();
+        },
+      ));
+    }
+  }
+
+  return pages;
+}
     return Scaffold(
       appBar: AppBar(
         title: const Text('Assessment'),

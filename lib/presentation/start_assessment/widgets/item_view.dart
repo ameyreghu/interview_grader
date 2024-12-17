@@ -127,7 +127,8 @@ class ItemView extends StatelessWidget {
                     print(assesmentItem.grade);
                     onNext();
                   },
-                  child: Text(index == totalNumber ? 'Submit' : 'Next'))
+                  child: Text(index == totalNumber ? 'Submit' : 'Next')),
+              space(val: 50.h)
             ],
           ),
         ),
