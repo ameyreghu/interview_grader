@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:interview_grader/main.dart';
 import 'package:interview_grader/models/assessment_item.dart';
+import 'package:interview_grader/presentation/widgets/centered_text.dart';
+import 'package:syntax_highlight/syntax_highlight.dart';
 
 class ItemView extends StatelessWidget {
   final String sectionName;
@@ -82,10 +85,13 @@ class ItemView extends StatelessWidget {
                 style: textTheme.titleLarge,
               ),
               space(),
-              Text(
-                assesmentItem.answer,
-                style: textTheme.bodyLarge,
-              ),
+              if (!assesmentItem.answer.contains('// Refer to the code below'))
+                Text(
+                  assesmentItem.answer,
+                  style: textTheme.bodyLarge,
+                ),
+              if (assesmentItem.answer.contains('// Refer to the code below'))
+                Text.rich(dartLightHighlighter.highlight(assesmentItem.answer)),
               space(),
               Text(
                 'Please Grade to continue',

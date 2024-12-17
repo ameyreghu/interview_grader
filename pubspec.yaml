@@ -41,6 +41,7 @@ dependencies:
   path_provider: ^2.1.5
   get_it: ^8.0.3
   flutter_screenutil: ^5.9.3
+  syntax_highlight: ^0.4.0
 
 dev_dependencies:
   flutter_test:

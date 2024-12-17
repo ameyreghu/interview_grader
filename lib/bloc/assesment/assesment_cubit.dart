@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:interview_grader/mock/data_source.dart';
 import 'package:interview_grader/models/assessment.dart';
@@ -7,8 +9,7 @@ part 'assesment_state.dart';
 class AssesmentCubit extends Cubit<AssesmentState> {
   Assessment assessmentreport;
   AssesmentCubit(this.assessmentreport)
-      : super(AssesmentState(
-            assessmentReport:assessmentreport));
+      : super(AssesmentState(assessmentReport: assessmentreport));
 
   setAsseseName(String name) {
     emit(state.copyWith(
@@ -34,7 +35,7 @@ class AssesmentCubit extends Cubit<AssesmentState> {
 
   clear() {
     emit(AssesmentState(
-        assessmentReport: Assessment.fromJson(assessmentData.toJson())));
+        assessmentReport: Assessment.fromJson(jsonEncode(json))));
     print(state);
   }
 }

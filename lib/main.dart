@@ -5,11 +5,21 @@ import 'package:interview_grader/bloc/app_data/app_data_cubit.dart';
 import 'package:interview_grader/helpers/hydrated_bloc_helper.dart';
 import 'package:interview_grader/injection_container.dart';
 import 'package:interview_grader/presentation/home/home_screen.dart';
+import 'package:syntax_highlight/syntax_highlight.dart';
 
+
+late final Highlighter dartLightHighlighter;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHydratedBloc();
   initializeDependencies();
+  await Highlighter.initialize(['dart', 'yaml']);
+    // Load the default light theme and create a highlighter.
+  var lightTheme = await HighlighterTheme.loadLightTheme();
+  dartLightHighlighter = Highlighter(
+    language: 'dart',
+    theme: lightTheme,
+  );
   runApp(const MyApp());
 }
 

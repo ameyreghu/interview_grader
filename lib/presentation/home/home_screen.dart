@@ -22,7 +22,11 @@ class HomeScreen extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                debugPrint(assessmentData.toJson());
+                debugPrint(Assessment.fromJson(jsonEncode(json))
+                    .sections
+                    .length
+                    .toString());
+                debugPrint(Assessment.fromJson(jsonEncode(json)).toJson());
               },
               child: Text('Export'))
         ],
@@ -107,7 +111,8 @@ class HomeScreen extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
               return BlocProvider(
-                create: (context) => AssesmentCubit(Assessment.fromJson(jsonEncode(json))),
+                create: (context) =>
+                    AssesmentCubit(Assessment.fromJson(jsonEncode(json))),
                 child: const StartAssementScreen(),
               );
             },
